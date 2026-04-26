@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sala Lauak Kito</title>
+
+<style>
+body {
+    font-family: Arial;
+    margin: 0;
+    background: #f0f2f5;
+}
+
+header {
+    background: linear-gradient(90deg, #8b4513, #a0522d);
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    width: 360px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+select, input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #8b4513;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #6e3510;
+}
+
+#cart {
+    margin-top: 20px;
+    padding: 15px;
+    background: #fafafa;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+/* INFO BOX */
+.info {
+    margin-top: 15px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+a {
+    color: #8b4513;
+    text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Sala Lauak Kito</h1>
+    <p>Sistem Pemesanan Online</p>
+</header>
+
+<div class="container">
+    <div class="card">
+
+        <h2>Pesan Sala</h2>
+
+        <label>Jenis Produk</label>
+        <select id="jenis">
+            <option value="Matang">Matang</option>
+            <option value="Frozen">Frozen</option>
+        </select>
+
+        <label>Paket</label>
+        <select id="paket">
+            <option value="10">Isi 10 pcs</option>
+            <option value="30">Isi 30 pcs</option>
+            <option value="50">Isi 50 pcs</option>
+            <option value="80">Isi 80 pcs</option>
+            <option value="100">Isi 100 pcs</option>
+        </select>
+
+        <label>Jumlah</label>
+        <input type="number" id="jumlah" value="1" min="1">
+
+        <button onclick="tambah()">Tambah ke Keranjang</button>
+
+        <div id="cart">
+            <h3>Keranjang</h3>
+            <div id="list"></div>
+            <hr>
+            <b id="total">Total: Rp 0</b>
+        </div>
+
+        <!-- INFO TAMBAHAN -->
+        <div class="info">
+            <h3>Kontak & Lokasi</h3>
+
+            📍 Alamat: Jalan No 10, Purus, Kec. Padang Barat, Kota Padang, Sumatera Barat<br>
+
+            🗺️ Google Maps: 
+            <a href="https://www.google.com/maps?q=Jalan+No+10+Purus+Padang+Barat+Padang+Sumatera+Barat" target="_blank">
+                Lihat Lokasi
+            </a><br>
+
+            📞 Contact Person: 081374548841
+        </div>
+
+    </div>
+</div>
+
+<script>
+let totalHarga = 0;
+let keranjang = [];
+
+function tambah() {
+    let jenis = document.getElementById("jenis").value;
+    let paket = parseInt(document.getElementById("paket").value);
+    let jumlah = parseInt(document.getElementById("jumlah").value);
+
+    let harga = (jenis === "Frozen") ? 1200 : 1500;
+    let subtotal = paket * jumlah * harga;
+
+    keranjang.push({ jenis, paket, jumlah, subtotal });
+    totalHarga += subtotal;
+
+    tampilkan();
+}
+
+function tampilkan() {
+    let list = document.getElementById("list");
+    list.innerHTML = "";
+
+    keranjang.forEach(item => {
+        list.innerHTML += `
+        <p>${item.jenis} - ${item.paket} pcs x ${item.jumlah}<br>
+        Rp ${item.subtotal.toLocaleString()}</p>`;
+    });
+
+    document.getElementById("total").innerText =
+        "Total: Rp " + totalHarga.toLocaleString();
+}
+</script>
+
+</body>
+</html>
